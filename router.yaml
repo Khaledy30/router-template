@@ -5,6 +5,7 @@ supergraph:
   introspection: true
   # Railway usa PORT, não ROUTER_PORT
   listen: 0.0.0.0:${env.ROUTER_PORT:-4000}
+  path: /graphql
   query_planning:
     cache:
       in_memory:
