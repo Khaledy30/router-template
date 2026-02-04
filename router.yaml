@@ -42,3 +42,18 @@ telemetry:
     spans:
       mode: spec_compliant
   # Apollo telemetry será configurado automaticamente via APOLLO_KEY e APOLLO_GRAPH_REF
+
+# cors:
+# origins:
+#     - https://studio.apollographql.com
+# headers:
+#   subgraphs:
+#     monolith:
+#       request:
+#         - propagate:
+#             matching: ".*"
+headers:
+  all:
+    request:
+      - propagate:
+          matching: .*
