@@ -62,11 +62,11 @@ sandbox:
 
 supergraph:
   introspection: true
-  listen: 0.0.0.0:${PORT:-4000}  # ⚠️ Railway usa PORT, não ROUTER_PORT
+  listen: 0.0.0.0:${env.ROUTER_PORT:-4000}
   path: /graphql
 
 health_check:
-  listen: 0.0.0.0:${PORT:-8080}  # ⚠️ MESMA porta que o router
+  listen: 0.0.0.0:${env.ROUTER_PORT:-8080}  
   enabled: true
   path: /health
 
