@@ -1,9 +1,67 @@
+# sandbox:
+#   enabled: false
+
+# supergraph:
+#   introspection: true
+#   # Railway usa PORT, não ROUTER_PORT
+#   listen: 0.0.0.0:${env.ROUTER_PORT:-4000}
+#   path: /graphql
+#   query_planning:
+#     cache:
+#       in_memory:
+#         limit: 512
+
+# # CRÍTICO: Healthcheck deve estar na MESMA PORTA que o Router
+# health_check:
+#   listen: 0.0.0.0:8088
+#   enabled: true
+#   path: /health
+
+# homepage:
+#   enabled: false
+
+# include_subgraph_errors:
+#   all: true
+
+# cors:
+#   # Para produção, configure origins específicas
+#   allow_any_origin: true
+
+# # Apenas limits que funcionam sem licença Enterprise
+# limits:
+#   parser_max_tokens: 15000
+#   parser_max_recursion: 4096
+#   # REMOVIDOS os limits Enterprise até conectar ao GraphOS:
+#   # max_depth: 100
+#   # max_height: 200
+#   # max_aliases: 30
+#   # max_root_fields: 20
+
+# telemetry:
+#   instrumentation:
+#     spans:
+#       mode: spec_compliant
+#   # Apollo telemetry será configurado automaticamente via APOLLO_KEY e APOLLO_GRAPH_REF
+
+#   # cors:
+#   #   origins:
+#   #   - https://studio.apollographql.com
+# headers:
+#   all:
+#     request:
+#       - propagate:
+#           matching: ".*"
+# # headers:
+# #   all:
+# #     request:
+# #       - propagate:
+# #           matching: .*
+
 sandbox:
   enabled: false
 
 supergraph:
   introspection: true
-  # Railway usa PORT, não ROUTER_PORT
   listen: 0.0.0.0:${env.ROUTER_PORT:-4000}
   path: /graphql
   query_planning:
@@ -11,7 +69,6 @@ supergraph:
       in_memory:
         limit: 512
 
-# CRÍTICO: Healthcheck deve estar na MESMA PORTA que o Router
 health_check:
   listen: 0.0.0.0:8088
   enabled: true
@@ -24,36 +81,26 @@ include_subgraph_errors:
   all: true
 
 cors:
-  # Para produção, configure origins específicas
   allow_any_origin: true
 
-# Apenas limits que funcionam sem licença Enterprise
 limits:
   parser_max_tokens: 15000
   parser_max_recursion: 4096
-  # REMOVIDOS os limits Enterprise até conectar ao GraphOS:
-  # max_depth: 100
-  # max_height: 200
-  # max_aliases: 30
-  # max_root_fields: 20
+
+# ✅ Propagação correta de headers
+headers:
+  all:
+    request:
+      - propagate:
+          named: "authorization"
+      - propagate:
+          named: "Authorization"
+      - propagate:
+          matching: "^x-.*"
+      - propagate:
+          named: "content-type"
 
 telemetry:
   instrumentation:
     spans:
       mode: spec_compliant
-  # Apollo telemetry será configurado automaticamente via APOLLO_KEY e APOLLO_GRAPH_REF
-
-  # cors:
-  #   origins:
-  #   - https://studio.apollographql.com
-headers:
-  subgraphs:
-    monolith:
-      request:
-        - propagate:
-            matching: ".*"
-# headers:
-#   all:
-#     request:
-#       - propagate:
-#           matching: .*
