@@ -62,15 +62,11 @@ sandbox:
 
 supergraph:
   introspection: true
-  listen: 0.0.0.0:${env.ROUTER_PORT:-4000}
+  listen: 0.0.0.0:${PORT}  # ⚠️ Railway usa PORT, não ROUTER_PORT
   path: /graphql
-  query_planning:
-    cache:
-      in_memory:
-        limit: 512
 
 health_check:
-  listen: 0.0.0.0:8088
+  listen: 0.0.0.0:${PORT}  # ⚠️ MESMA porta que o router
   enabled: true
   path: /health
 
@@ -83,11 +79,7 @@ include_subgraph_errors:
 cors:
   allow_any_origin: true
 
-limits:
-  parser_max_tokens: 15000
-  parser_max_recursion: 4096
-
-# ✅ Propagação correta de headers
+# ✅ Propagação de headers
 headers:
   all:
     request:
@@ -95,10 +87,10 @@ headers:
           named: "authorization"
       - propagate:
           named: "Authorization"
-      - propagate:
-          matching: "^x-.*"
-      - propagate:
-          named: "content-type"
+
+limits:
+  parser_max_tokens: 15000
+  parser_max_recursion: 4096
 
 telemetry:
   instrumentation:
