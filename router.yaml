@@ -84,7 +84,7 @@ headers:
   all:
     request:
       - propagate:
-          matching: ".*"  # Propaga TUDO temporariamente
+          named: authorization
 
 limits:
   parser_max_tokens: 15000
