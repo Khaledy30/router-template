@@ -84,7 +84,7 @@ headers:
   all:
     request:
       - propagate:
-          named: authorization
+          matching: .*
 
 limits:
   parser_max_tokens: 15000
@@ -94,3 +94,8 @@ telemetry:
   instrumentation:
     spans:
       mode: spec_compliant
+  exporters:
+    logging:
+      stdout:
+        enabled: true
+        format: json
